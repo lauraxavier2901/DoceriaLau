@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Lau Doceria</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonte -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="icon" href="imgs/icone.png" type="image/png">
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <nav class="navbar">
+  <div class="nav-logo">
+    <img src="imgs/logo.png" alt="Lau Doceria">
+  </div>
+
+  <div class="nav-center">
+    <a href="#cardapio">Cardápio</a>
+    <a href="#carrinho">Carrinho</a>
+  </div>
+
+  <div class="nav-total">
+    Total: R$ <span id="nav-total">0,00</span>
+  </div>
+</nav>
+
+  <!-- CARDÁPIO -->
+  <h2 class="titulo" id="cardapio">Cardápio</h2>
+
+  <div class="produtos">
+    <!-- PRODUTO -->
+    <div class="produto">
+      <div class="img-produto">
+        <span class="preco">R$ 15,00</span>
+        <button onclick="addProduto('Copo de felicidade limão',15,'imgs/tbl5.jpeg')">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </button>
+        <img src="imgs/tbl5.jpeg">
+      </div>
+      <p>Copo da felicidade<br>ninho com limão</p>
+    </div>
+
+    <div class="produto">
+      <div class="img-produto">
+        <span class="preco">R$ 15,00</span>
+        <button onclick="addProduto('Copo de morango',15,'imgs/tbl6.jpeg')">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </button>
+        <img src="imgs/tbl6.jpeg">
+      </div>
+      <p>Copo da felicidade<br>ninho com morango</p>
+    </div>
+
+    <div class="produto">
+      <div class="img-produto">
+        <span class="preco">R$ 15,00</span>
+        <button onclick="addProduto('Surpresa de uva',15,'imgs/tbl4.jpeg')">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </button>
+        <img src="imgs/tbl4.jpeg">
+      </div>
+      <p>Surpresa de uva</p>
+    </div>
+
+    <div class="produto">
+      <div class="img-produto">
+        <span class="preco">R$ 10,00</span>
+        <button onclick="addProduto('Donuts',10,'imgs/tbl3.jpeg')">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </button>
+        <img src="imgs/tbl3.jpeg">
+      </div>
+      <p>Donuts recheado de ninho </p>
+    </div>
+
+    <div class="produto">
+      <div class="img-produto">
+        <span class="preco">R$ 6,00</span>
+        <button onclick="addProduto('Cones trufados',6,'imgs/tbl1.jpeg')">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </button>
+        <img src="imgs/tbl1.jpeg">
+      </div>
+      <p>Cones trufados de brigadeiro, ninho e pistache </p>
+    </div>
+
+    <div class="produto">
+      <div class="img-produto">
+        <span class="preco">R$ 3,00</span>
+        <button onclick="addProduto('Docinhos',3,'imgs/tbl2.jpeg')">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </button>
+        <img src="imgs/tbl2.jpeg">
+      </div>
+      <p>Docinhos de morango </p>
+    </div>
+  </div>
+
+  <!-- CARRINHO -->
+  <h2 class="titulo" id="pedido">Seu Pedido</h2>
+  <div id="carrinho" class="carrinho"></div>
+
+  <div class="total-box">
+    <span>Total</span>
+    <strong>R$ <span id="total">0.00</span></strong>
+  </div>
+
+  <button class="finalizar" onclick="finalizarPedido()">Finalizar Pedido</button>
+</div>
+
+<div class="tela-checkout" id="tela-checkout" style="display: none;">
+  <div class="checkout-box">
+    <h2>Detalhes da Entrega</h2>
+    <div class="form-grupo">
+      <input type="text" id="nome" placeholder="Seu Nome completo" oninput="validarForm()">
+      <input type="text" id="telefone" placeholder="Telefone (WhatsApp)" oninput="validarForm()">
+      <input type="text" id="endereco" placeholder="Endereço de entrega" oninput="validarForm()">
+      <select id="pagamento" onchange="validarForm()">
+        <option value="">Forma de Pagamento</option>
+        <option value="Pix">Pix</option>
+        <option value="Cartão">Cartão de Crédito/Débito</option>
+        <option value="Dinheiro">Dinheiro (Espécie)</option>
+      </select>
+    </div>
+
+    <div class="cupom-container">
+      <input type="text" id="cupom-input" placeholder="Possui um cupom?">
+      <button type="button" onclick="aplicarCupom()" id="btn-cupom">Aplicar</button>
+    </div>
+    
+<div id="mensagem-cupom" style="font-size: 12px; margin-top: -10px; margin-bottom: 10px; display: none;"></div>
+    <button id="btn-confirmar-final" class="finalizar" disabled onclick="gerarResumo()">Confirmar e Finalizar</button>
+    <button class="btn-voltar" onclick="voltarParaCarrinho()">Voltar ao carrinho</button>
+  </div>
+</div>
+
+<div class="sucesso" id="sucesso">
+  <div class="sucesso-box">
+    <h1>Pedido Confirmado!</h1>
+    <div id="resumo-pedido-final" class="resumo-corpo">
+      </div>
+    <p style="margin-top: 20px; color: #5A1F1F; font-weight: 600;">Seu pedido será entregue em breve!</p>
+    <button onclick="voltarInicio()">Fazer novo pedido</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
